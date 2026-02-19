@@ -52,7 +52,7 @@ export function TeaserImageTextRenderer({
       height={isDesktop ? 300 : 200}
       className={cn(
         'flex-shrink-0',
-        isDesktop ? 'h-full w-1/2 rounded-lg' : 'h-48 w-full rounded-t-lg'
+        isDesktop ? 'w-1/2 rounded-lg' : 'h-48 w-full rounded-t-lg'
       )}
     />
   )
@@ -118,7 +118,7 @@ export function TeaserImageTextRenderer({
   return (
     <div
       className={cn(
-        'mx-auto flex w-full overflow-hidden rounded-lg bg-white shadow-sm',
+        'mx-auto flex w-full items-stretch overflow-hidden rounded-lg bg-white shadow-sm',
         isSelected && 'ring-2 ring-blue-500 ring-offset-1'
       )}
       style={{ minHeight: minH, maxWidth }}
