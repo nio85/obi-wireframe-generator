@@ -304,8 +304,13 @@ npm run build        # ✅ main 3.68KB, preload 5.09KB, renderer 837KB + 32KB CS
 **Output**: Shell dell'app visivamente completa.
 
 **Note tecniche**:
-- Canvas include header/footer decorativi OBI con link di navigazione placeholder
-- Zoom applicato tramite CSS transform scale() con transformOrigin top center
+- Canvas include header/footer decorativi OBI (placeholder, non responsive — i renderer responsive arrivano in Sprint 1.2)
+- **Auto-fit to width**: il canvas si adatta automaticamente allo spazio disponibile tramite CSS `zoom` + ResizeObserver
+  - `ui.store.ts` calcola `fitZoom` da `canvasContainerWidth / canvasWidth`, cappato a 100%
+  - Zoom segue il fitZoom durante resize finestra e toggle pannelli (modalita auto-fit)
+  - L'utente puo zoommare out manualmente; click sulla percentuale resetta all'auto-fit
+  - Nessuno scroll orizzontale mai (`overflow-x-hidden`)
+- AppShell: canvas container ha `overflow-hidden` per impedire overflow verso pannelli laterali
 - lucide-react aggiunge ~280KB al bundle (tree-shaking in produzione ridurra)
 - Pannelli collassabili con `transition-[width]` e `overflow-hidden` per animazione fluida
 

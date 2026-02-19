@@ -26,7 +26,7 @@ export function AppShell() {
         </div>
 
         {/* Canvas */}
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 overflow-hidden">
           <Canvas />
         </div>
 

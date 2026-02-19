@@ -1,21 +1,42 @@
+import { useEffect, useRef } from 'react'
 import { useUiStore } from '@/store/ui.store'
 import { VIEWPORTS } from '@shared/constants/viewport'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 export function Canvas() {
+  const containerRef = useRef<HTMLDivElement>(null)
   const viewport = useUiStore((s) => s.viewport)
   const zoom = useUiStore((s) => s.zoom)
+  const setCanvasContainerWidth = useUiStore((s) => s.setCanvasContainerWidth)
   const canvasWidth = VIEWPORTS[viewport].width
+  const scale = zoom / 100
+
+  // Misura il container con ResizeObserver per l'auto-fit
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const observer = new ResizeObserver((entries) => {
+      setCanvasContainerWidth(entries[0].contentRect.width)
+    })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [setCanvasContainerWidth])
 
   return (
-    <ScrollArea className="h-full bg-muted/30">
+    <div
+      ref={containerRef}
+      className="h-full overflow-y-auto overflow-x-hidden bg-muted/30"
+    >
       <div className="flex justify-center p-6">
+        {/*
+          CSS zoom: scala sia il rendering che il layout space.
+          A differenza di transform: scale(), il browser ricalcola il box model,
+          quindi il contenitore padre vede la dimensione reale scalata.
+        */}
         <div
-          className="relative bg-white shadow-md transition-[width] duration-200"
+          className="relative bg-white shadow-md"
           style={{
             width: canvasWidth,
-            transform: `scale(${zoom / 100})`,
-            transformOrigin: 'top center'
+            zoom: scale
           }}
         >
           {/* OBI Header (decorativo) */}
@@ -77,6 +98,6 @@ export function Canvas() {
           </div>
         </div>
       </div>
-    </ScrollArea>
+    </div>
   )
 }
