@@ -1,6 +1,6 @@
 # Sprint Plan: OBI Homepage Wireframe Generator
 
-> Versione: 1.0 | Data: 2026-02-18
+> Versione: 1.1 | Data: 2026-02-19 | Ultimo aggiornamento: Sprint 0.1 completato
 > Riferimenti: [PRD.md](PRD.md) | [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
@@ -102,7 +102,7 @@ Workflow            Template Editor     Polish
 
 ---
 
-### Sprint 0.1 - Project Bootstrap
+### Sprint 0.1 - Project Bootstrap ✅ COMPLETATO (2026-02-19)
 
 **Goal**: Progetto inizializzato con electron-vite, React, TypeScript, Tailwind, tutte le dipendenze installate, app si avvia con finestra vuota.
 
@@ -110,46 +110,53 @@ Workflow            Template Editor     Polish
 
 **Tasks**:
 
-| ID | Task | Dettaglio |
-|----|------|-----------|
-| T0.1.1 | Init progetto electron-vite | `npm create @quick-start/electron@latest` con template React+TS |
-| T0.1.2 | Configurare Tailwind CSS | Installare e configurare tailwind, postcss, globals.css |
-| T0.1.3 | Installare dipendenze core | `zustand`, `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/modifiers`, `lucide-react`, `date-fns`, `class-variance-authority`, `clsx`, `tailwind-merge` |
-| T0.1.4 | Configurare path alias | `@/` → `src/renderer/`, `@shared/` → `src/shared/` in `electron.vite.config.ts` e `tsconfig.*.json` |
-| T0.1.5 | Creare struttura cartelle | Tutte le cartelle vuote come da ARCHITECTURE.md sezione 4 |
-| T0.1.6 | Configurare ESLint + Prettier | Config base per TypeScript + React |
-| T0.1.7 | Verificare avvio | `npm run dev` → finestra Electron con "Hello World" |
+| ID | Task | Dettaglio | Stato |
+|----|------|-----------|-------|
+| T0.1.1 | Init progetto electron-vite | `npm create @quick-start/electron@latest` con template React+TS | ✅ |
+| T0.1.2 | Configurare Tailwind CSS | Installare e configurare tailwind, postcss, globals.css | ✅ |
+| T0.1.3 | Installare dipendenze core | `zustand`, `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/modifiers`, `lucide-react`, `date-fns`, `class-variance-authority`, `clsx`, `tailwind-merge` | ✅ |
+| T0.1.4 | Configurare path alias | `@/` → `src/renderer/src/`, `@shared/` → `src/shared/` in `electron.vite.config.ts` e `tsconfig.*.json` | ✅ |
+| T0.1.5 | Creare struttura cartelle | Tutte le cartelle vuote come da ARCHITECTURE.md sezione 4 | ✅ |
+| T0.1.6 | Configurare ESLint + Prettier | Config base per TypeScript + React (da scaffold electron-vite) | ✅ |
+| T0.1.7 | Verificare avvio | `npm run dev` → finestra Electron con placeholder OBI | ✅ |
 
-**File da creare**:
+**File creati**:
 ```
-electron.vite.config.ts
-tailwind.config.ts
-postcss.config.js
+electron.vite.config.ts          # Config con path alias @/ e @shared/
+tailwind.config.ts               # Tema OBI (colori, font, spacing, z-index)
+postcss.config.js                # PostCSS + Tailwind + Autoprefixer
 tsconfig.json / tsconfig.node.json / tsconfig.web.json
-src/main/index.ts
-src/preload/index.ts
-src/renderer/index.html
-src/renderer/main.tsx
-src/renderer/App.tsx
-src/renderer/assets/styles/globals.css
+src/main/index.ts                # BrowserWindow 1440x900, security settings
+src/preload/index.ts             # contextBridge con electronAPI
+src/renderer/index.html          # Lang IT, CSP configurata
+src/renderer/src/main.tsx        # Entry React
+src/renderer/src/App.tsx         # Placeholder OBI branded
+src/renderer/src/assets/globals.css  # Tailwind directives + CSS custom
+src/shared/types/index.ts        # Tipi condivisi (Project, WireframeComponent, etc.)
+src/renderer/src/lib/utils.ts    # Utility cn() per classi Tailwind
 ```
 
 **Acceptance Criteria**:
-- [ ] `npm run dev` avvia l'app senza errori
-- [ ] Finestra Electron visibile con contenuto React
-- [ ] Tailwind CSS funzionante (classe utility applicata visivamente)
-- [ ] Path alias `@/` e `@shared/` risolvono correttamente
-- [ ] TypeScript in strict mode senza errori `npm run typecheck`
-- [ ] Struttura cartelle conforme a ARCHITECTURE.md
+- [x] `npm run dev` avvia l'app senza errori
+- [x] Finestra Electron visibile con contenuto React
+- [x] Tailwind CSS funzionante (classe utility applicata visivamente)
+- [x] Path alias `@/` e `@shared/` risolvono correttamente
+- [x] TypeScript in strict mode senza errori `npm run typecheck`
+- [x] Struttura cartelle conforme a ARCHITECTURE.md
 
 **Verification**:
 ```bash
-npm run dev          # App si avvia
-npm run typecheck    # Nessun errore TS
-npm run build        # Build senza errori
+npm run dev          # ✅ App si avvia (richiede unset ELECTRON_RUN_AS_NODE)
+npm run typecheck    # ✅ Nessun errore TS
+npm run build        # ✅ Build senza errori (main 1.30KB, renderer 555KB + 12KB CSS)
 ```
 
-**Output**: Progetto funzionante, app si avvia con finestra vuota.
+**Output**: Progetto funzionante, app si avvia con finestra placeholder OBI.
+
+**Note tecniche**:
+- Rimosso `@electron-toolkit/utils` perche accede a `electron.app.isPackaged` al caricamento del modulo, causando crash con `ELECTRON_RUN_AS_NODE=1`. Sostituito con API Electron native.
+- `ELECTRON_RUN_AS_NODE=1` e impostato dall'ambiente VS Code/Claude Code. Gli script npm includono `unset ELECTRON_RUN_AS_NODE` prima di `electron-vite`.
+- Stack effettivo: Electron 39.6.1, electron-vite 5.0.0, React 19.2.1, TypeScript 5.9.3, Tailwind 3.4.19, Vite 7.2.6.
 
 ---
 

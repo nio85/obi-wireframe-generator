@@ -1,6 +1,6 @@
 # Architecture Document: OBI Homepage Wireframe Generator
 
-> Versione: 1.0 | Data: 2026-02-18 | Riferimento: [PRD.md](PRD.md)
+> Versione: 1.1 | Data: 2026-02-19 | Riferimento: [PRD.md](PRD.md)
 
 ---
 
@@ -102,14 +102,14 @@ UI italiano            →     i18n multilingua
 
 | Layer | Tecnologia | Versione Target | Perche |
 |-------|-----------|----------------|--------|
-| **Runtime** | Electron | 33+ | LTS stabile, Chromium recente |
-| **Build Tool** | electron-vite | 3+ | Vite-based, HMR veloce, config semplice per main/preload/renderer |
-| **UI Framework** | React | 18.3+ | Ecosistema maturo, concurrent features |
-| **Language** | TypeScript | 5.4+ | Strict mode, type safety end-to-end |
+| **Runtime** | Electron | 39.6+ | LTS stabile, Chromium 142, Node 22 |
+| **Build Tool** | electron-vite | 5.0+ | Vite 7 based, HMR veloce, config semplice per main/preload/renderer |
+| **UI Framework** | React | 19.2+ | Ecosistema maturo, concurrent features, compiler |
+| **Language** | TypeScript | 5.9+ | Strict mode, type safety end-to-end |
 | **Styling** | Tailwind CSS | 3.4+ | Utility-first, tree-shakeable, design system coerente |
 | **Component Library** | shadcn/ui | latest | Componenti accessibili, customizzabili, copy-paste |
-| **Drag & Drop** | @dnd-kit/core + /sortable | 6+ | Modulare, performante, accessibile, tree-shakeable |
-| **State** | Zustand | 5+ | Leggero, middleware composable, slices pattern |
+| **Drag & Drop** | @dnd-kit/core + /sortable | 6.3+ / 10+ | Modulare, performante, accessibile, tree-shakeable |
+| **State** | Zustand | 5.0+ | Leggero, middleware composable, slices pattern |
 | **Icons** | Lucide React | latest | Tree-shakeable, consistente |
 | **UUID** | crypto.randomUUID() | built-in | Nessuna dipendenza, nativo |
 | **Date** | date-fns | 3+ | Tree-shakeable, immutable |
@@ -117,7 +117,9 @@ UI italiano            →     i18n multilingua
 | **Export PDF** | jsPDF | latest | Client-side, nessuna dipendenza nativa |
 | **File Compression** | archiver + unzipper | latest | ZIP import/export |
 | **Testing** | Vitest + React Testing Library | latest | Compatibile con Vite, veloce |
-| **Packaging** | electron-builder | 25+ | Target portable per Windows |
+| **Packaging** | electron-builder | 26+ | Target portable per Windows |
+
+> **Nota**: `@electron-toolkit/utils` e stato rimosso dal progetto perche incompatibile con ambienti dove `ELECTRON_RUN_AS_NODE=1` (VS Code, Claude Code). Si usano API Electron native.
 
 ---
 

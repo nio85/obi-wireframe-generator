@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* OBI Design Tokens */
+    --obi-orange: #FF6600;
+    --obi-orange-dark: #E55C00;
+    --obi-orange-light: #FF8533;
+    --obi-gray-dark: #333333;
+    --obi-gray: #666666;
+    --obi-gray-light: #F5F5F5;
+
+    /* App Layout */
+    --toolbar-height: 48px;
+    --statusbar-height: 28px;
+    --panel-width: 280px;
+    --panel-min-width: 220px;
+    --panel-max-width: 400px;
+
+    /* Spacing base 8px */
+    --space-unit: 8px;
+  }
+
+  body {
+    @apply bg-white text-obi-gray-dark antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* Prevent text selection during drag */
+  .dragging * {
+    user-select: none !important;
+    pointer-events: none;
+  }
+}
+
+@layer components {
+  /* Panel base styles */
+  .panel {
+    @apply flex flex-col border-r border-gray-200 bg-white;
+  }
+
+  .panel-header {
+    @apply flex h-10 items-center border-b border-gray-200 px-3 text-sm font-medium text-obi-gray-dark;
+  }
+
+  /* Scrollbar styles */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-300;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+}
