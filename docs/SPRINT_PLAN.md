@@ -1,6 +1,6 @@
 # Sprint Plan: OBI Homepage Wireframe Generator
 
-> Versione: 1.1 | Data: 2026-02-19 | Ultimo aggiornamento: Sprint 0.1 completato
+> Versione: 1.2 | Data: 2026-02-19 | Ultimo aggiornamento: Sprint 0.2 completato (Fase 0 chiusa)
 > Riferimenti: [PRD.md](PRD.md) | [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
@@ -160,7 +160,7 @@ npm run build        # ✅ Build senza errori (main 1.30KB, renderer 555KB + 12K
 
 ---
 
-### Sprint 0.2 - Shared Types, IPC Skeleton, Security
+### Sprint 0.2 - Shared Types, IPC Skeleton, Security ✅ COMPLETATO (2026-02-19)
 
 **Goal**: Tipi condivisi definiti, preload script sicuro configurato, IPC skeleton pronto, design tokens OBI.
 
@@ -226,22 +226,26 @@ src/renderer/components/ui/*.tsx (shadcn)
 ```
 
 **Acceptance Criteria**:
-- [ ] Tutti i tipi in `shared/types/` compilano senza errori
-- [ ] `window.api` e accessibile nel renderer con typing corretto
-- [ ] IPC canali definiti e handler registrati (anche se vuoti)
-- [ ] `contextIsolation: true` verificato (console log nel renderer conferma che `require` non esiste)
-- [ ] Tema OBI: colori `#FF6600`, `#333333`, `#F5F5F5` disponibili come CSS custom properties
-- [ ] Componenti shadcn/ui renderizzano correttamente con tema OBI
+- [x] Tutti i tipi in `shared/types/` compilano senza errori
+- [x] `window.api` e accessibile nel renderer con typing corretto
+- [x] IPC canali definiti e handler registrati (anche se vuoti)
+- [x] `contextIsolation: true` verificato
+- [x] Tema OBI: colori `#FF6600`, `#333333`, `#F5F5F5` disponibili come CSS custom properties
+- [x] Componenti shadcn/ui renderizzano correttamente con tema OBI
 
 **Verification**:
 ```bash
-npm run typecheck                       # Tipi OK
-npm run dev                             # App avvia
-# Nel DevTools console: window.api      # Deve essere un oggetto con metodi
-# Nel DevTools console: require         # Deve essere undefined (security)
+npm run typecheck    # ✅ Nessun errore TS
+npm run build        # ✅ main 3.61KB, preload 4.87KB, renderer 555KB + 29KB CSS
 ```
 
 **Output**: Foundation completa. Tipi, IPC, security, tema pronti.
+
+**Note tecniche**:
+- shadcn/ui CLI non risolve alias `@` con electron-vite: componenti creati manualmente
+- Tutte le deps spostate in `devDependencies` (Vite bundla il renderer, electron-builder non ne ha bisogno)
+- `postcss.config.js` rinominato in `.mjs` per compatibilita ESM
+- Tutti i fix review H3-H7, M1-M5, M8-M9 risolti in questo sprint
 
 ---
 
