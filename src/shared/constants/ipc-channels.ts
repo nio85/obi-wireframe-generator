@@ -29,11 +29,11 @@ export const IPC_CHANNELS = {
   ASSET_IMPORT_IMAGE: 'asset:import-image',
   ASSET_GET_PATH: 'asset:get-path',
 
-  // Export
+  // Export / Import
   EXPORT_PNG: 'export:png',
   EXPORT_PDF: 'export:pdf',
   EXPORT_ZIP: 'export:zip',
-  IMPORT_ZIP: 'import:zip',
+  EXPORT_IMPORT_ZIP: 'export:import-zip',
 
   // Dialog
   DIALOG_OPEN: 'dialog:open',
@@ -46,7 +46,7 @@ export const IPC_CHANNELS = {
   APP_GET_USERNAME: 'app:get-username',
   MENU_ACTION: 'menu:action',
 
-  // Storage
+  // Storage (project-level)
   STORAGE_GET_PATH: 'storage:get-path',
   STORAGE_SET_PATH: 'storage:set-path'
 } as const

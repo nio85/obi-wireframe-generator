@@ -66,7 +66,7 @@ export interface ElectronAPI {
     getVersion: () => Promise<string>
     getPlatform: () => Promise<string>
     getUsername: () => Promise<string>
-    onMenuAction: (callback: (action: string) => void) => void
+    onMenuAction: (callback: (action: string) => void) => () => void
     removeMenuActionListener: () => void
   }
 }

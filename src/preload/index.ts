@@ -55,7 +55,7 @@ const api = {
     toPDF: (html: string, metadata: unknown) =>
       ipcRenderer.invoke(IPC_CHANNELS.EXPORT_PDF, html, metadata),
     toZIP: (projectId: string) => ipcRenderer.invoke(IPC_CHANNELS.EXPORT_ZIP, projectId),
-    fromZIP: (filePath: string) => ipcRenderer.invoke(IPC_CHANNELS.IMPORT_ZIP, filePath)
+    fromZIP: (filePath: string) => ipcRenderer.invoke(IPC_CHANNELS.EXPORT_IMPORT_ZIP, filePath)
   },
 
   dialog: {
@@ -69,8 +69,13 @@ const api = {
     getPlatform: () => ipcRenderer.invoke(IPC_CHANNELS.APP_GET_PLATFORM),
     getUsername: () => ipcRenderer.invoke(IPC_CHANNELS.APP_GET_USERNAME),
     onMenuAction: (callback: (action: string) => void) => {
+      // Remove any previous listeners to prevent leak on repeated calls
+      ipcRenderer.removeAllListeners(IPC_CHANNELS.MENU_ACTION)
       const handler = (_event: Electron.IpcRendererEvent, action: string): void => callback(action)
       ipcRenderer.on(IPC_CHANNELS.MENU_ACTION, handler)
+      return (): void => {
+        ipcRenderer.removeListener(IPC_CHANNELS.MENU_ACTION, handler)
+      }
     },
     removeMenuActionListener: () => {
       ipcRenderer.removeAllListeners(IPC_CHANNELS.MENU_ACTION)

@@ -6,6 +6,7 @@ export function nowISO(): string {
 /** Formatta una data ISO in formato italiano leggibile: "19 feb 2026, 14:30" */
 export function formatDateIT(isoDate: string): string {
   const date = new Date(isoDate)
+  if (isNaN(date.getTime())) return '—'
   return date.toLocaleDateString('it-IT', {
     day: 'numeric',
     month: 'short',
@@ -18,5 +19,6 @@ export function formatDateIT(isoDate: string): string {
 /** Formatta una data ISO in formato compatto: "19/02/2026" */
 export function formatDateShort(isoDate: string): string {
   const date = new Date(isoDate)
+  if (isNaN(date.getTime())) return '—'
   return date.toLocaleDateString('it-IT')
 }

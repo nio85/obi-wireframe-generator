@@ -12,6 +12,10 @@ export function registerAppHandlers(): void {
   })
 
   ipcMain.handle(IPC_CHANNELS.APP_GET_USERNAME, () => {
-    return os.userInfo().username
+    try {
+      return os.userInfo().username
+    } catch {
+      return os.hostname() || 'Utente'
+    }
   })
 }

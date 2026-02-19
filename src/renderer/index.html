@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OBI Wireframe Generator</title>
     <!--
-      CSP: in dev, electron-vite inietta script HMR che richiedono connect-src ws:.
-      In production, la CSP e piu restrittiva (no ws:).
-      electron-vite gestisce automaticamente la CSP in dev mode.
+      CSP: electron-vite inietta automaticamente ws: per HMR in dev mode.
+      La CSP qui e per la build di produzione.
     -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' ws:"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'"
     />
   </head>
   <body>
