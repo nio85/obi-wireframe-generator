@@ -1,5 +1,6 @@
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
+import { registerAllIpcHandlers } from './ipc'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -47,6 +48,7 @@ app.whenReady().then(() => {
   // Set app user model id for Windows
   app.setAppUserModelId('com.obi.wireframe-generator')
 
+  registerAllIpcHandlers()
   createWindow()
 
   app.on('activate', () => {

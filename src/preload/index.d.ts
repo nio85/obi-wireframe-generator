@@ -1,20 +1,5 @@
-// Typed API contract for the renderer process.
-// Must match what preload/index.ts exposes via contextBridge.
+// Preload type declarations.
+// The actual API contract is defined in @shared/types/api.ts (ElectronAPI).
+// This file just re-exports the global Window augmentation.
 
-export interface AppAPI {
-  getVersion: () => Promise<string>
-  getPlatform: () => Promise<string>
-  getUsername: () => Promise<string>
-}
-
-export interface ExposedAPI {
-  app: AppAPI
-  // project, version, template, asset, export, dialog
-  // will be added in Sprint 0.2
-}
-
-declare global {
-  interface Window {
-    api: ExposedAPI
-  }
-}
+import '@shared/types/api'

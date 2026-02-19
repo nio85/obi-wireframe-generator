@@ -1,4 +1,4 @@
-function App(): React.JSX.Element {
+function App() {
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
       <div className="text-center">

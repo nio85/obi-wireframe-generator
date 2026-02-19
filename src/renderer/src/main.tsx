@@ -1,3 +1,4 @@
+import './assets/styles/obi-theme.css'
 import './assets/styles/globals.css'
 
 import { StrictMode } from 'react'
