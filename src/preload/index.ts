@@ -1,22 +1,15 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from 'electron'
 
-// Custom APIs for renderer
-const api = {}
-
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
+// Typed API exposed to renderer via contextBridge.
+// Only specific, whitelisted methods — never raw ipcRenderer.
+const api = {
+  app: {
+    getVersion: (): Promise<string> => ipcRenderer.invoke('app:getVersion'),
+    getPlatform: (): Promise<string> => ipcRenderer.invoke('app:getPlatform'),
+    getUsername: (): Promise<string> => ipcRenderer.invoke('app:getUsername')
   }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+  // project, version, template, asset, export, dialog
+  // will be added in Sprint 0.2 as IPC handlers are created
 }
+
+contextBridge.exposeInMainWorld('api', api)

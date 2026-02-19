@@ -166,18 +166,39 @@ npm run build        # ✅ Build senza errori (main 1.30KB, renderer 555KB + 12K
 
 **Input**: Sprint 0.1 completato
 
+> **Note dalla code review Sprint 0.1**: i seguenti fix dalla review sono gia stati applicati o sono integrati nelle task sottostanti:
+> - ~~C1/C2~~ Preload riscritto senza `@electron-toolkit/preload` (applicato)
+> - ~~C3~~ URL validation in `shell.openExternal` (applicato)
+> - ~~H1~~ electron-builder.yml exclusion path aggiornato (applicato)
+> - ~~H2/L4~~ `globals.css` spostato in `assets/styles/` (applicato)
+>
+> Fix rimanenti dalla review da integrare in questo sprint:
+> - **H3**: Aggiungere `<meta name="viewport">` in `index.html` per responsive preview
+> - **H4**: Spostare dipendenze renderer-only (`lucide-react`, `clsx`, ecc.) in `devDependencies` per coerenza con `react`
+> - **H5**: Aggiungere `renderDesktop`/`renderMobile` in `TemplateDefinition` (ARCHITECTURE.md sez. 7)
+> - **H6**: Creare `src/renderer/src/assets/styles/obi-theme.css` separato dai token in globals.css
+> - **H7**: Creare `src/shared/utils/` con file placeholder
+> - **M1**: Rimuovere tipo di ritorno esplicito `React.JSX.Element` in `App.tsx`
+> - **M2**: Verificare CSP `connect-src` per HMR in dev
+> - **M3**: Rinominare `postcss.config.js` → `postcss.config.mjs` per evitare warning ESM
+> - **M4**: Spostare `VIEWPORT_WIDTHS` da `shared/types/` a `shared/constants/`
+> - **M5**: Rimuovere font-family duplicata in `globals.css` (gia in Tailwind config)
+> - **M8**: Aggiungere `.gitattributes` con `* text=auto eol=lf`
+> - **M9**: Aggiungere `icon` esplicito in `electron-builder.yml`
+
 **Tasks**:
 
 | ID | Task | Dettaglio |
 |----|------|-----------|
-| T0.2.1 | Creare tutti i tipi shared | `src/shared/types/*.ts`: Project, WireframeComponent, TemplateDefinition, WorkflowStatus, Annotation, Asset, ElectronAPI (da ARCHITECTURE.md sez. 7) |
-| T0.2.2 | Creare costanti shared | `src/shared/constants/ipc-channels.ts`, `workflow-states.ts`, `viewport.ts` |
-| T0.2.3 | Creare utility shared | `src/shared/utils/id.ts`, `date.ts`, `validation.ts` |
-| T0.2.4 | Configurare preload sicuro | `src/preload/index.ts` con `contextBridge.exposeInMainWorld`, context isolation |
+| T0.2.1 | Creare tutti i tipi shared | `src/shared/types/*.ts`: Project, WireframeComponent, TemplateDefinition (con renderDesktop/renderMobile), WorkflowStatus, Annotation, Asset, ElectronAPI (da ARCHITECTURE.md sez. 7). **Fix H5** incluso. |
+| T0.2.2 | Creare costanti shared | `src/shared/constants/ipc-channels.ts`, `workflow-states.ts`, `viewport.ts`. Spostare `VIEWPORT_WIDTHS` da types a constants (**fix M4**). |
+| T0.2.3 | Creare utility shared | `src/shared/utils/id.ts`, `date.ts`, `validation.ts` (**fix H7**) |
+| T0.2.4 | Configurare preload sicuro | ~~`src/preload/index.ts` con `contextBridge.exposeInMainWorld`, context isolation~~ GIA FATTO in code review Sprint 0.1 — verificare e integrare con IPC handlers |
 | T0.2.5 | Creare IPC skeleton nel main | `src/main/ipc/index.ts` che registra handler vuoti per tutti i canali |
-| T0.2.6 | Configurare BrowserWindow sicura | `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true` |
-| T0.2.7 | Creare tema OBI CSS | `src/renderer/assets/styles/obi-theme.css` con design tokens (colori, font, spacing) |
+| T0.2.6 | ~~Configurare BrowserWindow sicura~~ | ~~GIA FATTO in Sprint 0.1~~ — aggiungere `<meta name="viewport">` in index.html (**fix H3**), verificare CSP (**fix M2**) |
+| T0.2.7 | Creare tema OBI CSS | `src/renderer/src/assets/styles/obi-theme.css` separato (**fix H6**), rimuovere font-family duplicata da globals.css (**fix M5**) |
 | T0.2.8 | Installare e configurare shadcn/ui | Init shadcn/ui, aggiungere componenti base: Button, Dialog, Input, Label, ScrollArea, Select, Separator, Tabs, Tooltip |
+| T0.2.9 | Fix infrastruttura residui | Rinominare `postcss.config.js` → `.mjs` (**fix M3**), spostare deps in devDependencies (**fix H4**), fix `App.tsx` return type (**fix M1**), aggiungere `.gitattributes` (**fix M8**), icon esplicita in electron-builder (**fix M9**) |
 
 **File da creare**:
 ```
