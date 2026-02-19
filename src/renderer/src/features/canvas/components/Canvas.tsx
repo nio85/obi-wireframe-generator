@@ -1,6 +1,51 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useUiStore } from '@/store/ui.store'
 import { VIEWPORTS } from '@shared/constants/viewport'
+import { templateRegistry } from '@/features/templates/registry/template.registry'
+import type { WireframeComponent } from '@shared/types'
+import type { TemplateRendererProps } from '@/features/templates/types/template.types'
+import type { ComponentType } from 'react'
+
+function createDemoComponents(): WireframeComponent[] {
+  return [
+    {
+      id: 'demo-1',
+      templateId: 'hero-slider',
+      config: { ...templateRegistry.getDefinition('hero-slider')?.defaultConfig },
+      order: 0,
+      isVisible: true,
+      isLocked: false,
+      annotationIds: [],
+    },
+    {
+      id: 'demo-2',
+      templateId: 'teaser-image-text',
+      config: { ...templateRegistry.getDefinition('teaser-image-text')?.defaultConfig },
+      order: 1,
+      isVisible: true,
+      isLocked: false,
+      annotationIds: [],
+    },
+    {
+      id: 'demo-3',
+      templateId: 'teaser-image',
+      config: { ...templateRegistry.getDefinition('teaser-image')?.defaultConfig },
+      order: 2,
+      isVisible: true,
+      isLocked: false,
+      annotationIds: [],
+    },
+    {
+      id: 'demo-4',
+      templateId: 'grid-promo',
+      config: { ...templateRegistry.getDefinition('grid-promo')?.defaultConfig },
+      order: 3,
+      isVisible: true,
+      isLocked: false,
+      annotationIds: [],
+    },
+  ]
+}
 
 export function Canvas() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -9,6 +54,9 @@ export function Canvas() {
   const setCanvasContainerWidth = useUiStore((s) => s.setCanvasContainerWidth)
   const canvasWidth = VIEWPORTS[viewport].width
   const scale = zoom / 100
+
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const demoComponents = useMemo(() => createDemoComponents(), [])
 
   // Misura il container con ResizeObserver per l'auto-fit
   useEffect(() => {
@@ -59,29 +107,31 @@ export function Canvas() {
             </div>
           </div>
 
-          {/* Content area (drop zone) */}
-          <div className="min-h-[400px] border-2 border-dashed border-gray-200 p-4">
-            <div className="flex h-full flex-col items-center justify-center gap-2 py-20 text-center text-sm text-muted-foreground">
-              <div className="rounded-full bg-muted p-4">
-                <svg
-                  className="h-8 w-8 text-muted-foreground/50"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
+          {/* Content area — demo dei 4 renderer (Sprint 1.2) */}
+          <div className="min-h-[400px]">
+            {demoComponents.map((comp) => {
+              const def = templateRegistry.getDefinition(comp.templateId)
+              const Renderer = templateRegistry.getRenderer(comp.templateId) as
+                | ComponentType<TemplateRendererProps>
+                | undefined
+              if (!def || !Renderer) return null
+              return (
+                <div
+                  key={comp.id}
+                  onClick={() =>
+                    setSelectedId(comp.id === selectedId ? null : comp.id)
+                  }
+                  className="cursor-pointer"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
+                  <Renderer
+                    component={comp}
+                    template={def}
+                    viewport={viewport}
+                    isSelected={comp.id === selectedId}
                   />
-                </svg>
-              </div>
-              <p className="font-medium">Trascina qui i componenti</p>
-              <p className="text-xs text-muted-foreground/70">
-                Seleziona un componente dalla libreria e trascinalo in questa area
-              </p>
-            </div>
+                </div>
+              )
+            })}
           </div>
 
           {/* OBI Footer (decorativo) */}

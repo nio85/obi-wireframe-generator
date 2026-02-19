@@ -1,6 +1,6 @@
 # Sprint Plan: OBI Homepage Wireframe Generator
 
-> Versione: 1.3 | Data: 2026-02-19 | Ultimo aggiornamento: Sprint 1.1 completato
+> Versione: 1.4 | Data: 2026-02-19 | Ultimo aggiornamento: Sprint 1.2 completato
 > Riferimenti: [PRD.md](PRD.md) | [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
@@ -316,7 +316,7 @@ npm run build        # ✅ main 3.68KB, preload 5.09KB, renderer 837KB + 32KB CS
 
 ---
 
-### Sprint 1.2 - Template Registry & Primi 4 Renderer
+### Sprint 1.2 - Template Registry & Primi 4 Renderer ✅ COMPLETATO (2026-02-19)
 
 **Goal**: Template Registry funzionante con 4 template built-in registrati e renderizzabili nel canvas.
 
@@ -324,51 +324,63 @@ npm run build        # ✅ main 3.68KB, preload 5.09KB, renderer 837KB + 32KB CS
 
 **Tasks**:
 
-| ID | Task | Dettaglio |
-|----|------|-----------|
-| T1.2.1 | Implementare TemplateRegistry | Classe singleton con `register`, `getDefinition`, `getRenderer`, `listDefinitions`, `subscribe` (da ARCHITECTURE.md sez. 8) |
-| T1.2.2 | Definizione HeroSlider | `hero-slider.template.ts` con configSchema completo (slides, autoplay, CTA) |
-| T1.2.3 | Renderer HeroSlider | `HeroSliderRenderer.tsx` - desktop: banner full-width con slide indicators; mobile: versione compatta |
-| T1.2.4 | Definizione TeaserImageText | `teaser-image-text.template.ts` con varianti 800/1000, countdown |
-| T1.2.5 | Renderer TeaserImageText | `TeaserImageTextRenderer.tsx` - immagine + testo + CTA, variante con countdown badge |
-| T1.2.6 | Definizione TeaserImage | `teaser-image.template.ts` con overlay testo |
-| T1.2.7 | Renderer TeaserImage | `TeaserImageRenderer.tsx` - immagine full-width con overlay gradient + testo |
-| T1.2.8 | Definizione GridPromo | `grid-promo.template.ts` con varianti 2col/3col |
-| T1.2.9 | Renderer GridPromo | `GridPromoRenderer.tsx` - griglia di card promo con immagine + testo |
-| T1.2.10 | Registrazione template | `index.ts` che registra tutti i template nel registry all'avvio |
-| T1.2.11 | Hook useTemplateRegistry | React hook che espone il registry e re-renderizza al cambio |
+| ID | Task | Dettaglio | Stato |
+|----|------|-----------|-------|
+| T1.2.1 | Implementare TemplateRegistry | Classe singleton con `register`, `getDefinition`, `getRenderer`, `listDefinitions`, `subscribe` (da ARCHITECTURE.md sez. 8) | ✅ |
+| T1.2.2 | Definizione HeroSlider | `hero-slider.template.ts` con configSchema completo (slides, autoplay, CTA) | ✅ |
+| T1.2.3 | Renderer HeroSlider | `HeroSliderRenderer.tsx` - desktop: banner full-width con slide indicators; mobile: versione compatta | ✅ |
+| T1.2.4 | Definizione TeaserImageText | `teaser-image-text.template.ts` con varianti 800/1000, countdown | ✅ |
+| T1.2.5 | Renderer TeaserImageText | `TeaserImageTextRenderer.tsx` - immagine + testo + CTA, variante con countdown badge | ✅ |
+| T1.2.6 | Definizione TeaserImage | `teaser-image.template.ts` con overlay testo | ✅ |
+| T1.2.7 | Renderer TeaserImage | `TeaserImageRenderer.tsx` - immagine full-width con overlay gradient + testo | ✅ |
+| T1.2.8 | Definizione GridPromo | `grid-promo.template.ts` con varianti 2col/3col | ✅ |
+| T1.2.9 | Renderer GridPromo | `GridPromoRenderer.tsx` - griglia di card promo con immagine + testo | ✅ |
+| T1.2.10 | Registrazione template | `index.ts` che registra tutti i template nel registry all'avvio | ✅ |
+| T1.2.11 | Hook useTemplateRegistry | React hook che espone il registry e re-renderizza al cambio | ✅ |
 
-**File da creare**:
+**File creati**:
 ```
-src/renderer/features/templates/registry/template.registry.ts
-src/renderer/features/templates/definitions/hero-slider.template.ts
-src/renderer/features/templates/definitions/teaser-image-text.template.ts
-src/renderer/features/templates/definitions/teaser-image.template.ts
-src/renderer/features/templates/definitions/grid-promo.template.ts
-src/renderer/features/templates/definitions/index.ts
-src/renderer/features/templates/components/renderers/HeroSliderRenderer.tsx
-src/renderer/features/templates/components/renderers/TeaserImageTextRenderer.tsx
-src/renderer/features/templates/components/renderers/TeaserImageRenderer.tsx
-src/renderer/features/templates/components/renderers/GridPromoRenderer.tsx
-src/renderer/features/templates/components/renderers/index.ts
-src/renderer/features/templates/types/template.types.ts
+src/renderer/src/features/templates/types/template.types.ts
+src/renderer/src/features/templates/registry/template.registry.ts
+src/renderer/src/features/templates/definitions/hero-slider.template.ts
+src/renderer/src/features/templates/definitions/teaser-image-text.template.ts
+src/renderer/src/features/templates/definitions/teaser-image.template.ts
+src/renderer/src/features/templates/definitions/grid-promo.template.ts
+src/renderer/src/features/templates/definitions/index.ts
+src/renderer/src/features/templates/components/renderers/PlaceholderImage.tsx
+src/renderer/src/features/templates/components/renderers/HeroSliderRenderer.tsx
+src/renderer/src/features/templates/components/renderers/TeaserImageTextRenderer.tsx
+src/renderer/src/features/templates/components/renderers/TeaserImageRenderer.tsx
+src/renderer/src/features/templates/components/renderers/GridPromoRenderer.tsx
+src/renderer/src/features/templates/components/renderers/index.ts
+src/renderer/src/main.tsx (modifica - registerBuiltInTemplates)
+src/renderer/src/features/canvas/components/Canvas.tsx (modifica - demo dei 4 renderer)
 ```
 
 **Acceptance Criteria**:
-- [ ] TemplateRegistry: `register()`, `getDefinition()`, `getRenderer()` funzionano
-- [ ] 4 template definiti con configSchema, defaultConfig, layout, cms metadata
-- [ ] 4 renderer mostrano un componente visivamente riconoscibile (high-fi OBI style)
-- [ ] Ogni renderer accetta prop `viewport` e renderizza diversamente per desktop/mobile
-- [ ] Ogni renderer accetta prop `isSelected` e mostra bordo di selezione
-- [ ] I renderer usano i design tokens OBI (colori, font, border-radius)
+- [x] TemplateRegistry: `register()`, `getDefinition()`, `getRenderer()` funzionano
+- [x] 4 template definiti con configSchema, defaultConfig, layout, cms metadata
+- [x] 4 renderer mostrano un componente visivamente riconoscibile (high-fi OBI style)
+- [x] Ogni renderer accetta prop `viewport` e renderizza diversamente per desktop/mobile
+- [x] Ogni renderer accetta prop `isSelected` e mostra bordo di selezione
+- [x] I renderer usano i design tokens OBI (colori, font, border-radius)
 
 **Verification**:
-```
-Renderizzare manualmente i 4 renderer nel canvas con dati di test.
-Verificare visivamente che assomiglino ai corrispondenti blocchi su obi-italia.it
+```bash
+npm run typecheck    # ✅ Nessun errore TS
+npm run build        # ✅ main 3.68KB, preload 5.09KB, renderer 869KB + 37KB CSS
+# Verifica visiva: 4 renderer nel canvas con dati demo, desktop + mobile, selezione blu
 ```
 
 **Output**: 4 componenti OBI renderizzabili, registry funzionante.
+
+**Note tecniche**:
+- `TemplateRendererProps` vive in `features/templates/types/` (non in `shared/`) perche importa `ComponentType` da React
+- Registry usa `useSyncExternalStore` (React 19 pattern) per il hook `useTemplateRegistry`
+- Config semplificata: campi flat (headline, text, ctaLabel) anziche gruppi/array annidati — il supporto array arrivera in Sprint 1.4 con il ConfigPanel
+- `PlaceholderImage` componente condiviso per immagini placeholder nei renderer
+- `registerBuiltInTemplates()` chiamato in `main.tsx` prima di `createRoot().render()`
+- Canvas mostra temporaneamente i 4 renderer come demo — sara sostituito dalla drop zone in Sprint 1.3
 
 ---
 
