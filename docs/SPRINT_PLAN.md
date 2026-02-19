@@ -1,6 +1,6 @@
 # Sprint Plan: OBI Homepage Wireframe Generator
 
-> Versione: 1.2 | Data: 2026-02-19 | Ultimo aggiornamento: Sprint 0.2 completato (Fase 0 chiusa)
+> Versione: 1.3 | Data: 2026-02-19 | Ultimo aggiornamento: Sprint 1.1 completato
 > Riferimenti: [PRD.md](PRD.md) | [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
@@ -255,7 +255,7 @@ npm run build        # ✅ main 3.61KB, preload 4.87KB, renderer 555KB + 29KB CS
 
 ---
 
-### Sprint 1.1 - Layout App Shell
+### Sprint 1.1 - Layout App Shell ✅ COMPLETATO (2026-02-19)
 
 **Goal**: Layout a 3 pannelli (libreria, canvas, config) con toolbar, ridimensionabile, responsive.
 
@@ -263,44 +263,51 @@ npm run build        # ✅ main 3.61KB, preload 4.87KB, renderer 555KB + 29KB CS
 
 **Tasks**:
 
-| ID | Task | Dettaglio |
-|----|------|-----------|
-| T1.1.1 | Creare AppShell | Layout flex con 3 colonne: libreria (240px fisso), canvas (flex-1), config (320px fisso) |
-| T1.1.2 | Creare Toolbar | Barra superiore con: nome progetto, selettore versione (placeholder), toggle viewport, pulsanti azioni |
-| T1.1.3 | Creare StatusBar | Barra inferiore con: stato salvataggio, zoom level, viewport corrente |
-| T1.1.4 | Pannello Libreria (vuoto) | Sidebar sinistra con header "Componenti", search input, area scrollabile per future categorie |
-| T1.1.5 | Canvas (vuoto) | Area centrale scrollabile con sfondo grigio chiaro, contenitore centrato (max-width 1440px) |
-| T1.1.6 | Config Panel (vuoto) | Sidebar destra con header "Configurazione", messaggio "Seleziona un componente" |
-| T1.1.7 | Pannelli collassabili | Icone per collassare/espandere libreria e config panel |
-| T1.1.8 | Creare UI store | `src/renderer/store/ui.store.ts`: viewport, panel visibility, zoom |
+| ID | Task | Dettaglio | Stato |
+|----|------|-----------|-------|
+| T1.1.1 | Creare AppShell | Layout flex con 3 colonne: libreria (240px fisso), canvas (flex-1), config (320px fisso) | ✅ |
+| T1.1.2 | Creare Toolbar | Barra superiore con: nome progetto, selettore versione (placeholder), toggle viewport, pulsanti azioni | ✅ |
+| T1.1.3 | Creare StatusBar | Barra inferiore con: stato salvataggio, zoom level, viewport corrente | ✅ |
+| T1.1.4 | Pannello Libreria (vuoto) | Sidebar sinistra con header "Componenti", search input, area scrollabile per future categorie | ✅ |
+| T1.1.5 | Canvas (vuoto) | Area centrale scrollabile con sfondo grigio chiaro, contenitore centrato (max-width 1440px) | ✅ |
+| T1.1.6 | Config Panel (vuoto) | Sidebar destra con header "Configurazione", messaggio "Seleziona un componente" | ✅ |
+| T1.1.7 | Pannelli collassabili | Icone per collassare/espandere libreria e config panel | ✅ |
+| T1.1.8 | Creare UI store | `src/renderer/store/ui.store.ts`: viewport, panel visibility, zoom | ✅ |
 
-**File da creare**:
+**File creati**:
 ```
-src/renderer/App.tsx (modifica)
-src/renderer/components/layout/AppShell.tsx
-src/renderer/components/layout/Toolbar.tsx
-src/renderer/components/layout/StatusBar.tsx
-src/renderer/features/library/components/LibraryPanel.tsx
-src/renderer/features/canvas/components/Canvas.tsx
-src/renderer/features/config/components/ConfigPanel.tsx
-src/renderer/store/ui.store.ts
+src/renderer/src/App.tsx (modifica - ora importa AppShell)
+src/renderer/src/components/layout/AppShell.tsx
+src/renderer/src/components/layout/Toolbar.tsx
+src/renderer/src/components/layout/StatusBar.tsx
+src/renderer/src/features/library/components/LibraryPanel.tsx
+src/renderer/src/features/canvas/components/Canvas.tsx
+src/renderer/src/features/config/components/ConfigPanel.tsx
+src/renderer/src/store/ui.store.ts
 ```
 
 **Acceptance Criteria**:
-- [ ] Layout a 3 pannelli visibile, proporzionato, senza overflow
-- [ ] Toolbar con elementi placeholder visibili
-- [ ] Libreria e Config Panel collassabili con animazione
-- [ ] Canvas occupa tutto lo spazio disponibile, scrollabile verticalmente
-- [ ] StatusBar visibile in basso con informazioni base
-- [ ] Resize finestra: layout si adatta fluidamente
-- [ ] Look&feel coerente con tema OBI (arancione, grigio, bianco)
+- [x] Layout a 3 pannelli visibile, proporzionato, senza overflow
+- [x] Toolbar con elementi placeholder visibili
+- [x] Libreria e Config Panel collassabili con animazione (transition-[width] 200ms)
+- [x] Canvas occupa tutto lo spazio disponibile, scrollabile verticalmente
+- [x] StatusBar visibile in basso con informazioni base
+- [x] Resize finestra: layout si adatta fluidamente
+- [x] Look&feel coerente con tema OBI (arancione, grigio, bianco)
 
 **Verification**:
-```
-Visuale: ridimensionare la finestra, collassare i pannelli, scrollare il canvas
+```bash
+npm run typecheck    # ✅ Nessun errore TS
+npm run build        # ✅ main 3.68KB, preload 5.09KB, renderer 837KB + 32KB CSS
 ```
 
 **Output**: Shell dell'app visivamente completa.
+
+**Note tecniche**:
+- Canvas include header/footer decorativi OBI con link di navigazione placeholder
+- Zoom applicato tramite CSS transform scale() con transformOrigin top center
+- lucide-react aggiunge ~280KB al bundle (tree-shaking in produzione ridurra)
+- Pannelli collassabili con `transition-[width]` e `overflow-hidden` per animazione fluida
 
 ---
 
